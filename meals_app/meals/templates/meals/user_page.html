@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Test</title>
+</head>
+<body>
+    {{current_user.first_name }} {{current_user.family_name}}
+    <a href="{% url 'calendar' current_user.pk %}">Go to calendar</a>
+</body>

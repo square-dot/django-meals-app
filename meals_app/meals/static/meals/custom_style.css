@@ -1,0 +1,26 @@
+body {
+    background-color: black;
+    font-size: 12;
+    font-family: "Arial";
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    font-stretch: normal;
+    line-height: 1.5;
+}
+
+h1 {
+    color: hsl(210, 10%, 62%);
+    margin-left: 40px;
+    font-weight: 400;
+}
+
+/* unvisited link */
+a:link {
+    color: red;
+}
+
+/* visited link */
+a:visited {
+    color: green;
+}
