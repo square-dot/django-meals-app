@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Meals List</h1>
+{% if meal_list %}
+<ul>
+    {% for meal in meal_list %}
+    <li>
+        {{ meal }}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>There are no meals.</p>
+{% endif %}
+{% endblock %}

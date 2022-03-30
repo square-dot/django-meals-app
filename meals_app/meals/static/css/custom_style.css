@@ -1,5 +1,5 @@
 body {
-    background-color: black;
+    background-color: whitesmoke;
     font-size: 12;
     font-family: "Arial";
     font-style: normal;
@@ -23,4 +23,12 @@ a:link {
 /* visited link */
 a:visited {
     color: green;
+}
+
+td {
+    text-align: center;
+}
+
+th {
+    text-align: center;
 }

@@ -1,20 +1,10 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'meals/custom_style.css' %}">
-    <meta charset="utf-8">
-</head>
-
-<body>
+{% extends "base_generic.html" %}
+{% block content %}
     <h1>List of users</h1>
-
     <ul>
         {% for user in all_users_list %}
-        <li style="list-style-type:none;"><a href="{% url 'user' user.pk %}">{{user.first_name}}
+        <li style="list-style-type:none;"><a href="{% url 'user_detail' user.pk %}">{{user.first_name}}
                 {{user.family_name}}</a></li>
         {% endfor %}
     </ul>
-
-</body>
+{% endblock %}
