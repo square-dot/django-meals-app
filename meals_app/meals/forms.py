@@ -1,5 +1,6 @@
+from turtle import width
 from django import forms
-from datetime import date
+from datetime import date, timedelta
 from meals.models import Meal
 
 
@@ -31,3 +32,5 @@ class MealForm(forms.Form):
         choices=(not_picked, (Meal.DINNER, next(x[1] for x in Meal.MEAL_TYPE if x[0] == Meal.DINNER))),
         widget=forms.Select(attrs={"onchange": "submit()"}),
     )
+
+

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date, timedelta
 
 
 class Meal(models.Model):
@@ -20,6 +21,16 @@ class Meal(models.Model):
         default=BREAKFAST,
     )
 
+    @staticmethod
+    def isAtMeal(a_day, a_user_id, a_meal):
+        if a_user_id is None:
+            return False
+        a_user = User.objects.get(id=a_user_id)
+        day_meals = Meal.objects.filter(day=a_day)
+        day_breakfasts = day_meals.filter(meal_type=a_meal)
+        day_user_breakfasts = day_breakfasts.filter(user=a_user)
+        return day_user_breakfasts.exists()
+
     class Meta:
         constraints = [models.constraints.UniqueConstraint(
             fields=["day", "user", "meal_type"], name="one_meal_per_person"
@@ -38,3 +49,33 @@ class Meal(models.Model):
             + " - "
             + self.meal_description()
         )
+
+class WeekModel:
+    
+    @staticmethod
+    def days_of_week(a_day):
+        weekday = a_day.isoweekday()
+        start_of_week = a_day - timedelta(days=weekday)
+        return [start_of_week + timedelta(days=d) for d in range(7)]
+
+    @staticmethod
+    def dictionary_of_day(a_day, user):
+        return {
+                "date": a_day,
+                Meal.BREAKFAST: Meal.BREAKFAST
+                if Meal.isAtMeal(a_day, user, Meal.BREAKFAST)
+                else "",
+                Meal.LUNCH: Meal.LUNCH
+                if Meal.isAtMeal(a_day, user, Meal.LUNCH)
+                else "",
+                Meal.DINNER: Meal.DINNER
+                if Meal.isAtMeal(a_day, user, Meal.DINNER)
+                else "",
+            }
+
+    def __init__(self, a_day, a_user):
+        days = self.days_of_week(a_day)
+
+        self.dict = {every_day : WeekModel.dictionary_of_day(a_day, a_user) for every_day in days}
+
+

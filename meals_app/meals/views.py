@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from meals.models import Meal
-from datetime import date
+from meals.models import Meal, WeekModel
+from datetime import date, timedelta
 from .forms import FormForDate, FormForDate, MealForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
@@ -44,30 +44,8 @@ class Week_view(View, LoginRequiredMixin):
         meals_form = self.pupulated_meal_form(a_date, request.user.id)
         return render(request, self.template_name, {"meals_form": meals_form})
 
-    def is_at_meal(self, a_day, a_user_id, a_meal):
-        if a_user_id is None:
-            return False
-        a_user = User.objects.get(id=a_user_id)
-        day_meals = Meal.objects.filter(day=a_day)
-        day_breakfasts = day_meals.filter(meal_type=a_meal)
-        day_user_breakfasts = day_breakfasts.filter(user=a_user)
-        return day_user_breakfasts.exists()
-
     def pupulated_meal_form(self, day, user):
-        meal = MealForm(
-            {
-                "date": day,
-                Meal.BREAKFAST: Meal.BREAKFAST
-                if self.is_at_meal(day, user, Meal.BREAKFAST)
-                else "",
-                Meal.LUNCH: Meal.LUNCH
-                if self.is_at_meal(day, user, Meal.LUNCH)
-                else "",
-                Meal.DINNER: Meal.DINNER
-                if self.is_at_meal(day, user, Meal.DINNER)
-                else "",
-            }
-        )
+        meal = MealForm(WeekModel.dictionary_of_day(day, user))
         return meal
 
 

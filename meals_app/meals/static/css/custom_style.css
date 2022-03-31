@@ -9,6 +9,11 @@ body {
     line-height: 1.5;
 }
 
+content {
+    max-width: 500px;
+    margin: auto;
+}
+
 h1 {
     color: hsl(210, 10%, 62%);
     margin-left: 40px;
