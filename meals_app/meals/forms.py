@@ -33,4 +33,9 @@ class MealForm(forms.Form):
         widget=forms.Select(attrs={"onchange": "submit()"}),
     )
 
+    @staticmethod
+    def pupulated_meal_form(day, user):
+        meal = MealForm(Meal.dictionary_of_day(day, user))
+        return meal
+
 

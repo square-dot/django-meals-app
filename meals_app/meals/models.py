@@ -22,7 +22,7 @@ class Meal(models.Model):
     )
 
     @staticmethod
-    def isAtMeal(a_day, a_user_id, a_meal):
+    def is_at_meal(a_day, a_user_id, a_meal):
         if a_user_id is None:
             return False
         a_user = User.objects.get(id=a_user_id)
@@ -30,6 +30,21 @@ class Meal(models.Model):
         day_breakfasts = day_meals.filter(meal_type=a_meal)
         day_user_breakfasts = day_breakfasts.filter(user=a_user)
         return day_user_breakfasts.exists()
+
+    @staticmethod
+    def dictionary_of_day(a_day, user):
+        return {
+                "date": a_day,
+                Meal.BREAKFAST: Meal.BREAKFAST
+                if Meal.is_at_meal(a_day, user, Meal.BREAKFAST)
+                else "",
+                Meal.LUNCH: Meal.LUNCH
+                if Meal.is_at_meal(a_day, user, Meal.LUNCH)
+                else "",
+                Meal.DINNER: Meal.DINNER
+                if Meal.is_at_meal(a_day, user, Meal.DINNER)
+                else "",
+            }
 
     class Meta:
         constraints = [models.constraints.UniqueConstraint(
@@ -58,24 +73,8 @@ class WeekModel:
         start_of_week = a_day - timedelta(days=weekday)
         return [start_of_week + timedelta(days=d) for d in range(7)]
 
-    @staticmethod
-    def dictionary_of_day(a_day, user):
-        return {
-                "date": a_day,
-                Meal.BREAKFAST: Meal.BREAKFAST
-                if Meal.isAtMeal(a_day, user, Meal.BREAKFAST)
-                else "",
-                Meal.LUNCH: Meal.LUNCH
-                if Meal.isAtMeal(a_day, user, Meal.LUNCH)
-                else "",
-                Meal.DINNER: Meal.DINNER
-                if Meal.isAtMeal(a_day, user, Meal.DINNER)
-                else "",
-            }
-
     def __init__(self, a_day, a_user):
         days = self.days_of_week(a_day)
-
-        self.dict = {every_day : WeekModel.dictionary_of_day(a_day, a_user) for every_day in days}
+        self.dict = {every_day : Meal.dictionary_of_day(a_day, a_user) for every_day in days}
 
 

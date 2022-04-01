@@ -9,12 +9,20 @@ from django.views.generic.base import View
 from django.views.generic import ListView, DetailView
 from django.core.exceptions import ValidationError
 
-
-class Week_view(View, LoginRequiredMixin):
+class WeekView(View, LoginRequiredMixin):
     template_name = "week_view.html"
 
     def get(self, request):
-        meals_form = self.pupulated_meal_form(date.today(), request.user.id)
+        meals_form = MealForm.pupulated_meal_form(date.today(), request.user.id)
+        print(meals_form["date"].value())
+        return render(request, self.template_name, {"meals_form": meals_form})
+
+
+class DayView(View, LoginRequiredMixin):
+    template_name = "day_view.html"
+
+    def get(self, request):
+        meals_form = MealForm.pupulated_meal_form(date.today(), request.user.id)
         print(meals_form["date"].value())
         return render(request, self.template_name, {"meals_form": meals_form})
 
@@ -41,12 +49,8 @@ class Week_view(View, LoginRequiredMixin):
                         Meal.objects.create(day=a_date, user=a_user, meal_type=m[0])
             else:
                 return ValidationError
-        meals_form = self.pupulated_meal_form(a_date, request.user.id)
+        meals_form = MealForm.pupulated_meal_form(a_date, request.user.id)
         return render(request, self.template_name, {"meals_form": meals_form})
-
-    def pupulated_meal_form(self, day, user):
-        meal = MealForm(WeekModel.dictionary_of_day(day, user))
-        return meal
 
 
 class CalendarView(View, LoginRequiredMixin):
