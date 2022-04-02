@@ -9,13 +9,61 @@ from django.views.generic.base import View
 from django.views.generic import ListView, DetailView
 from django.core.exceptions import ValidationError
 
+
 class WeekView(View, LoginRequiredMixin):
     template_name = "week_view.html"
 
     def get(self, request):
-        meals_form = MealForm.pupulated_meal_form(date.today(), request.user.id)
-        print(meals_form["date"].value())
-        return render(request, self.template_name, {"meals_form": meals_form})
+        days_of_week = WeekModel.days_of_week(date.today())
+        monday_form = MealForm.pupulated_meal_form(days_of_week[0], request.user.id)
+        tuesday_form = MealForm.pupulated_meal_form(days_of_week[1], request.user.id)
+        wednesday_form = MealForm.pupulated_meal_form(days_of_week[2], request.user.id)
+        return render(
+            request,
+            self.template_name,
+            {
+                "monday_form": monday_form,
+                "tuesday_form": tuesday_form,
+                "wendesday_form": wednesday_form,
+            }
+        )
+
+    def post(self, request):
+        a_date = date.today()
+        if "date_change" in request.POST:
+            meals_form = MealForm(request.POST)
+            if meals_form.is_valid():
+                a_date = meals_form["date"].value()
+        if "date_change" not in request.POST:
+            meals_form = MealForm(request.POST)
+            if meals_form.is_valid():
+                a_date = meals_form["date"].value()
+                a_user = request.user
+                for m in Meal.MEAL_TYPE:
+                    in_db = (
+                        Meal.objects.filter(day=a_date)
+                        .filter(user=a_user)
+                        .filter(meal_type=m[0])
+                    )
+                    if in_db.exists() and not meals_form[m[0]].value():
+                        in_db.delete()
+                    elif not in_db.exists() and meals_form[m[0]].value():
+                        Meal.objects.create(day=a_date, user=a_user, meal_type=m[0])
+            else:
+                return ValidationError
+        days_of_week = WeekModel.days_of_week(date.today())
+        monday_form = MealForm.pupulated_meal_form(days_of_week[0], request.user.id)
+        tuesday_form = MealForm.pupulated_meal_form(days_of_week[1], request.user.id)
+        wednesday_form = MealForm.pupulated_meal_form(days_of_week[2], request.user.id)
+        return render(
+            request,
+            self.template_name,
+            {
+                "monday_form": monday_form,
+                "tuesday_form": tuesday_form,
+                "wendesday_form": wednesday_form,
+            }
+        )
 
 
 class DayView(View, LoginRequiredMixin):
@@ -23,7 +71,6 @@ class DayView(View, LoginRequiredMixin):
 
     def get(self, request):
         meals_form = MealForm.pupulated_meal_form(date.today(), request.user.id)
-        print(meals_form["date"].value())
         return render(request, self.template_name, {"meals_form": meals_form})
 
     def post(self, request):

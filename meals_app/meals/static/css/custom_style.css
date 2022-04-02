@@ -30,6 +30,23 @@ a:visited {
     color: green;
 }
 
+table#weektable {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px black solid;
+}
+
+table#weektable td {
+    width: 50%;
+    border: 1px black solid;
+    padding: 10px;
+}
+
+table#weektable caption {
+    font-style: italic;
+}
+
 td {
     text-align: center;
 }

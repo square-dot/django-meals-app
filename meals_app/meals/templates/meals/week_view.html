@@ -1,11 +1,44 @@
 {% extends "base_generic.html" %}
 {% block content %}
-<p> {{ meals_form.date.value }} </p>
-<form action="{% url 'week_view' %}" method="post">
-    {% csrf_token %}
-    <p> {{ meals_form.date }} </p>
-    {{ meals_form.BR }} <br />
-    {{ meals_form.LU }} <br />
-    {{ meals_form.DI }} <br />
-</form>
-{% endblock %}
+<table id="weektable" width="50%">
+    <tr>
+        <th> Monday {{ monday_form.date.value }} </th>
+    </tr>
+    <tr>
+        <div class="row">
+            <form action="{% url 'week_view' %}" method="post">
+                {% csrf_token %}
+                <td>
+                    {{ monday_form.BR }}
+                </td>
+                <td>
+                    {{ monday_form.LU }}
+                </td>
+                <td>
+                    {{ monday_form.DI }}
+                </td>
+            </form>
+        </div>
+    </tr>
+    <tr>
+        <th> Tuesday {{ tuesday_form.date.value }} </th>
+    </tr>
+    <tr>
+
+        <div class="row">
+            <form action="{% url 'week_view' %}" method="post">
+                {% csrf_token %}
+                <td>
+                    {{ tuesday_form.BR }}
+                </td>
+                <td>
+                    {{ tuesday_form.LU }}
+                </td>
+                <td>
+                    {{ tuesday_form.DI }}
+                </td>
+            </form>
+        </div>
+    </tr>
+    </div>
+    {% endblock %}

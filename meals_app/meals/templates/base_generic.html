@@ -23,7 +23,7 @@
                     <li>User: {{ user.get_username }}</li>
                     <li><a href="{% url 'date_picker' %}?next={{request.path}}">Calendar</a></li>
                     <li><a href="{% url 'day_view' %}?next={{request.path}}">Meal picker</a></li>
-                    <li><a href="{% url 'week_view' %}?next={{request.path}}">Meal picker</a></li>
+                    <li><a href="{% url 'week_view' %}?next={{request.path}}">Week picker</a></li>
                     <li><a href="{% url 'day_meals' %}?next={{request.path}}">Meals of the day</a></li>
                     <li><a href="{% url 'meals' %}?next={{request.path}}">List of meals</a></li>
                     <li><a href="{% url 'login' %}?next={{request.path}}">Logout</a></li>
