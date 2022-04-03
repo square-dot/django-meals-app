@@ -22,7 +22,7 @@ class Meal(models.Model):
     )
 
     @staticmethod
-    def is_at_meal(a_day, a_user_id, a_meal):
+    def exists(a_day, a_user_id, a_meal):
         if a_user_id is None:
             return False
         a_user = User.objects.get(id=a_user_id)
@@ -32,17 +32,17 @@ class Meal(models.Model):
         return day_user_breakfasts.exists()
 
     @staticmethod
-    def dictionary_of_day(a_day, user):
+    def meals(a_day, user):
         return {
                 "date": a_day,
                 Meal.BREAKFAST: Meal.BREAKFAST
-                if Meal.is_at_meal(a_day, user, Meal.BREAKFAST)
+                if Meal.exists(a_day, user, Meal.BREAKFAST)
                 else "",
                 Meal.LUNCH: Meal.LUNCH
-                if Meal.is_at_meal(a_day, user, Meal.LUNCH)
+                if Meal.exists(a_day, user, Meal.LUNCH)
                 else "",
                 Meal.DINNER: Meal.DINNER
-                if Meal.is_at_meal(a_day, user, Meal.DINNER)
+                if Meal.exists(a_day, user, Meal.DINNER)
                 else "",
             }
 
@@ -75,6 +75,6 @@ class WeekModel:
 
     def __init__(self, a_day, a_user):
         days = self.days_of_week(a_day)
-        self.dict = {every_day : Meal.dictionary_of_day(a_day, a_user) for every_day in days}
+        self.dict = {every_day : Meal.meals(a_day, a_user) for every_day in days}
 
 

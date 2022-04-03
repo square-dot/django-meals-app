@@ -1,6 +1,4 @@
-from turtle import width
 from django import forms
-from datetime import date, timedelta
 from meals.models import Meal
 
 
@@ -15,7 +13,7 @@ class FormForDate(forms.Form):
 
 not_picked = ("", "-")
 
-class MealForm(forms.Form):
+class DayForm(forms.Form):
     date = forms.DateField(widget=forms.HiddenInput())
     BR = forms.ChoiceField(
         required=False,
@@ -34,8 +32,8 @@ class MealForm(forms.Form):
     )
 
     @staticmethod
-    def pupulated_meal_form(day, user):
-        meal = MealForm(Meal.dictionary_of_day(day, user))
+    def pupulated_form(day, user):
+        meal = DayForm(Meal.meals(day, user))
         return meal
 
 

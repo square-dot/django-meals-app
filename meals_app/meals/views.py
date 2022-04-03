@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from meals.models import Meal, WeekModel
-from datetime import date, timedelta
-from .forms import FormForDate, FormForDate, MealForm
+from datetime import date
+from .forms import FormForDate, FormForDate, DayForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -15,9 +15,9 @@ class WeekView(View, LoginRequiredMixin):
 
     def get(self, request):
         days_of_week = WeekModel.days_of_week(date.today())
-        monday_form = MealForm.pupulated_meal_form(days_of_week[0], request.user.id)
-        tuesday_form = MealForm.pupulated_meal_form(days_of_week[1], request.user.id)
-        wednesday_form = MealForm.pupulated_meal_form(days_of_week[2], request.user.id)
+        monday_form = DayForm.pupulated_form(days_of_week[0], request.user.id)
+        tuesday_form = DayForm.pupulated_form(days_of_week[1], request.user.id)
+        wednesday_form = DayForm.pupulated_form(days_of_week[2], request.user.id)
         return render(
             request,
             self.template_name,
@@ -29,14 +29,19 @@ class WeekView(View, LoginRequiredMixin):
         )
 
     def post(self, request):
+        print('post method is running')
         a_date = date.today()
         if "date_change" in request.POST:
-            meals_form = MealForm(request.POST)
+            meals_form = DayForm(request.POST)
             if meals_form.is_valid():
+                print('form is valid')
                 a_date = meals_form["date"].value()
         if "date_change" not in request.POST:
-            meals_form = MealForm(request.POST)
+            print('date change not in request post')
+            meals_form = DayForm(request.POST)
+            print(meals_form.errors)
             if meals_form.is_valid():
+                print('meals form is valid 2')
                 a_date = meals_form["date"].value()
                 a_user = request.user
                 for m in Meal.MEAL_TYPE:
@@ -52,9 +57,9 @@ class WeekView(View, LoginRequiredMixin):
             else:
                 return ValidationError
         days_of_week = WeekModel.days_of_week(date.today())
-        monday_form = MealForm.pupulated_meal_form(days_of_week[0], request.user.id)
-        tuesday_form = MealForm.pupulated_meal_form(days_of_week[1], request.user.id)
-        wednesday_form = MealForm.pupulated_meal_form(days_of_week[2], request.user.id)
+        monday_form = DayForm.pupulated_form(days_of_week[0], request.user.id)
+        tuesday_form = DayForm.pupulated_form(days_of_week[1], request.user.id)
+        wednesday_form = DayForm.pupulated_form(days_of_week[2], request.user.id)
         return render(
             request,
             self.template_name,
@@ -70,17 +75,17 @@ class DayView(View, LoginRequiredMixin):
     template_name = "day_view.html"
 
     def get(self, request):
-        meals_form = MealForm.pupulated_meal_form(date.today(), request.user.id)
+        meals_form = DayForm.pupulated_form(date.today(), request.user.id)
         return render(request, self.template_name, {"meals_form": meals_form})
 
     def post(self, request):
         a_date = date.today()
         if "date_change" in request.POST:
-            meals_form = MealForm(request.POST)
+            meals_form = DayForm(request.POST)
             if meals_form.is_valid():
                 a_date = meals_form["date"].value()
         if "date_change" not in request.POST:
-            meals_form = MealForm(request.POST)
+            meals_form = DayForm(request.POST)
             if meals_form.is_valid():
                 a_date = meals_form["date"].value()
                 a_user = request.user
@@ -96,7 +101,7 @@ class DayView(View, LoginRequiredMixin):
                         Meal.objects.create(day=a_date, user=a_user, meal_type=m[0])
             else:
                 return ValidationError
-        meals_form = MealForm.pupulated_meal_form(a_date, request.user.id)
+        meals_form = DayForm.pupulated_form(a_date, request.user.id)
         return render(request, self.template_name, {"meals_form": meals_form})
 
 
