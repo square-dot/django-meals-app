@@ -15,11 +15,6 @@ not_picked = ("", "-")
 
 class DayForm(forms.Form):
     date = forms.DateField(widget=forms.HiddenInput())
-    BR = forms.ChoiceField(
-        required=False,
-        choices=(not_picked, (Meal.BREAKFAST, next(x[1] for x in Meal.MEAL_TYPE if x[0] == Meal.BREAKFAST))),
-        widget=forms.Select(attrs={"onchange": "submit()"}),
-    )
     LU = forms.ChoiceField(
         required=False,
         choices=(not_picked, (Meal.LUNCH, next(x[1] for x in Meal.MEAL_TYPE if x[0] == Meal.LUNCH))),

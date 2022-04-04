@@ -4,11 +4,9 @@ from datetime import date, timedelta
 
 
 class Meal(models.Model):
-    BREAKFAST = "BR"
     LUNCH = "LU"
     DINNER = "DI"
     MEAL_TYPE = [
-        (BREAKFAST, "Breakfast"),
         (LUNCH, "Lunch"),
         (DINNER, "Dinner"),
     ]
@@ -18,7 +16,7 @@ class Meal(models.Model):
     meal_type = models.CharField(
         max_length=2,
         choices=MEAL_TYPE,
-        default=BREAKFAST,
+        default=LUNCH,
     )
 
     @staticmethod
@@ -35,9 +33,6 @@ class Meal(models.Model):
     def meals(a_day, user):
         return {
                 "date": a_day,
-                Meal.BREAKFAST: Meal.BREAKFAST
-                if Meal.exists(a_day, user, Meal.BREAKFAST)
-                else "",
                 Meal.LUNCH: Meal.LUNCH
                 if Meal.exists(a_day, user, Meal.LUNCH)
                 else "",
@@ -70,7 +65,7 @@ class WeekModel:
     @staticmethod
     def days_of_week(a_day):
         weekday = a_day.isoweekday()
-        start_of_week = a_day - timedelta(days=weekday)
+        start_of_week = a_day - timedelta(days=weekday - 1) #starts on monday
         return [start_of_week + timedelta(days=d) for d in range(7)]
 
     def __init__(self, a_day, a_user):

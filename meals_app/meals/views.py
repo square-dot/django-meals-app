@@ -24,24 +24,20 @@ class WeekView(View, LoginRequiredMixin):
             {
                 "monday_form": monday_form,
                 "tuesday_form": tuesday_form,
-                "wendesday_form": wednesday_form,
+                "wednesday_form": wednesday_form,
             }
         )
 
     def post(self, request):
-        print('post method is running')
         a_date = date.today()
         if "date_change" in request.POST:
             meals_form = DayForm(request.POST)
             if meals_form.is_valid():
-                print('form is valid')
                 a_date = meals_form["date"].value()
         if "date_change" not in request.POST:
             print('date change not in request post')
             meals_form = DayForm(request.POST)
-            print(meals_form.errors)
             if meals_form.is_valid():
-                print('meals form is valid 2')
                 a_date = meals_form["date"].value()
                 a_user = request.user
                 for m in Meal.MEAL_TYPE:
@@ -66,7 +62,7 @@ class WeekView(View, LoginRequiredMixin):
             {
                 "monday_form": monday_form,
                 "tuesday_form": tuesday_form,
-                "wendesday_form": wednesday_form,
+                "wednesday_form": wednesday_form,
             }
         )
 
@@ -135,7 +131,6 @@ class DayMeals(View):
     def get(self, request):
         day = date.today()
         all_meals = Meal.objects.filter(day=day)
-        breakfasts = [x.user for x in all_meals.filter(meal_type=Meal.BREAKFAST)]
         lunches = [x.user for x in all_meals.filter(meal_type=Meal.LUNCH)]
         dinners = [x.user for x in all_meals.filter(meal_type=Meal.DINNER)]
 
@@ -143,7 +138,6 @@ class DayMeals(View):
             request,
             self.template_name,
             {
-                Meal.BREAKFAST: breakfasts,
                 Meal.LUNCH: lunches,
                 Meal.DINNER: dinners,
             },

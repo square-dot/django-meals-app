@@ -102,7 +102,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-DATE_FORMAT = "Y-m-d"
+DATE_FORMAT = "l j/n/Y"
 
 USE_L10N = False
 
