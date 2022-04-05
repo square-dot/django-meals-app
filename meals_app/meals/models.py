@@ -24,10 +24,21 @@ class Meal(models.Model):
         if a_user_id is None:
             return False
         a_user = User.objects.get(id=a_user_id)
-        day_meals = Meal.objects.filter(day=a_day)
-        day_breakfasts = day_meals.filter(meal_type=a_meal)
-        day_user_breakfasts = day_breakfasts.filter(user=a_user)
-        return day_user_breakfasts.exists()
+        day_meals = Meal.objects.filter(day=a_day).filter(meal_type=a_meal).filter(user=a_user)
+        return day_meals.exists()
+
+    @staticmethod
+    def set_in_db(a_day, a_user, a_meal_type, tof):
+        in_db = (
+                Meal.objects.filter(day=a_day)
+                .filter(user=a_user)
+                .filter(meal_type=a_meal_type)
+            )
+        if in_db.exists() and not tof:
+            in_db.delete()
+        elif not in_db.exists() and tof:
+            Meal.objects.create(day=a_day, user=a_user, meal_type=a_meal_type)
+
 
     @staticmethod
     def meals(a_day, user):

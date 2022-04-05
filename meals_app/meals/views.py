@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from meals.models import Meal, WeekModel
 from datetime import date
-from .forms import FormForDate, FormForDate, DayForm
+from .forms import FormForDate, FormForDate, DayForm, BulkPickerForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import View
 from django.views.generic import ListView, DetailView
 from django.core.exceptions import ValidationError
+from meals.forms import string_to_date
 
 
 class WeekView(View, LoginRequiredMixin):
@@ -15,90 +16,54 @@ class WeekView(View, LoginRequiredMixin):
 
     def get(self, request):
         days_of_week = WeekModel.days_of_week(date.today())
-        monday_form = DayForm.pupulated_form(days_of_week[0], request.user.id)
-        tuesday_form = DayForm.pupulated_form(days_of_week[1], request.user.id)
-        wednesday_form = DayForm.pupulated_form(days_of_week[2], request.user.id)
+        return self.__render(request, days_of_week)
+
+    def __render(self, request, days_of_week):
         return render(
             request,
             self.template_name,
             {
-                "monday_form": monday_form,
-                "tuesday_form": tuesday_form,
-                "wednesday_form": wednesday_form,
-            }
+                "bulk_lunches": BulkPickerForm(
+                    {"date": days_of_week[0], "meal_type": Meal.LUNCH}
+                ),
+                "bulk_dinners": BulkPickerForm(
+                    {"date": days_of_week[0], "meal_type": Meal.DINNER}
+                ),
+                "monday_form": DayForm.populated(days_of_week[0], request.user.id),
+                "tuesday_form": DayForm.populated(days_of_week[1], request.user.id),
+                "wednesday_form": DayForm.populated(days_of_week[2], request.user.id),
+                "thursday_form": DayForm.populated(days_of_week[3], request.user.id),
+                "friday_form": DayForm.populated(days_of_week[4], request.user.id),
+                "saturday_form": DayForm.populated(days_of_week[5], request.user.id),
+                "sunday_form": DayForm.populated(days_of_week[6], request.user.id),
+            },
         )
 
     def post(self, request):
         a_date = date.today()
         if "date_change" in request.POST:
-            meals_form = DayForm(request.POST)
-            if meals_form.is_valid():
-                a_date = meals_form["date"].value()
-        if "date_change" not in request.POST:
-            print('date change not in request post')
-            meals_form = DayForm(request.POST)
-            if meals_form.is_valid():
-                a_date = meals_form["date"].value()
-                a_user = request.user
-                for m in Meal.MEAL_TYPE:
-                    in_db = (
-                        Meal.objects.filter(day=a_date)
-                        .filter(user=a_user)
-                        .filter(meal_type=m[0])
-                    )
-                    if in_db.exists() and not meals_form[m[0]].value():
-                        in_db.delete()
-                    elif not in_db.exists() and meals_form[m[0]].value():
-                        Meal.objects.create(day=a_date, user=a_user, meal_type=m[0])
-            else:
-                return ValidationError
-        days_of_week = WeekModel.days_of_week(date.today())
-        monday_form = DayForm.pupulated_form(days_of_week[0], request.user.id)
-        tuesday_form = DayForm.pupulated_form(days_of_week[1], request.user.id)
-        wednesday_form = DayForm.pupulated_form(days_of_week[2], request.user.id)
-        return render(
-            request,
-            self.template_name,
-            {
-                "monday_form": monday_form,
-                "tuesday_form": tuesday_form,
-                "wednesday_form": wednesday_form,
-            }
-        )
+            date_form = FormForDate(request.POST)
+            if not date_form.is_valid():
+                return ValidationError("Expected date change but form not valid")
+            a_date = string_to_date(date_form["date"].value())
 
+        if "bulk_pick" in request.POST:
+            bulk_form = BulkPickerForm(request.POST)
+            if not bulk_form.is_valid():
+                return ValidationError("Expected bulk picker form but form not valid")
+            bulk_form.process(request.user)
+            a_date = string_to_date(bulk_form["date"].value())
 
-class DayView(View, LoginRequiredMixin):
-    template_name = "day_view.html"
+        else:
+            day_form = DayForm(request.POST)
+            if not day_form.is_valid():
+                return ValidationError("Expected day form but form not valid")
+            day_form.process(request.user)
+            a_date = string_to_date(day_form["date"].value())
 
-    def get(self, request):
-        meals_form = DayForm.pupulated_form(date.today(), request.user.id)
-        return render(request, self.template_name, {"meals_form": meals_form})
-
-    def post(self, request):
-        a_date = date.today()
-        if "date_change" in request.POST:
-            meals_form = DayForm(request.POST)
-            if meals_form.is_valid():
-                a_date = meals_form["date"].value()
-        if "date_change" not in request.POST:
-            meals_form = DayForm(request.POST)
-            if meals_form.is_valid():
-                a_date = meals_form["date"].value()
-                a_user = request.user
-                for m in Meal.MEAL_TYPE:
-                    in_db = (
-                        Meal.objects.filter(day=a_date)
-                        .filter(user=a_user)
-                        .filter(meal_type=m[0])
-                    )
-                    if in_db.exists() and not meals_form[m[0]].value():
-                        in_db.delete()
-                    elif not in_db.exists() and meals_form[m[0]].value():
-                        Meal.objects.create(day=a_date, user=a_user, meal_type=m[0])
-            else:
-                return ValidationError
-        meals_form = DayForm.pupulated_form(a_date, request.user.id)
-        return render(request, self.template_name, {"meals_form": meals_form})
+        return self.__render(
+                request, WeekModel.days_of_week(a_date)
+            )
 
 
 class CalendarView(View, LoginRequiredMixin):
@@ -115,6 +80,7 @@ def list_of_users(request):
     return render(request, template_name, all_users)
 
 
+# sourcery skip: avoid-builtin-shadow
 class Login(LoginView):
     next_page = "login"
     template_name = "login.html"

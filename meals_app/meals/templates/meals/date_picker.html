@@ -1,6 +1,6 @@
 {% extends "base_generic.html" %}
 {% block content %}
-<form action="{% url 'day_view' %}" method="post">
+<form action="{% url 'week_view' %}" method="post">
     {% csrf_token %}
     {{ date_input }}
     <input type="submit" value="Go" name="date_change">
