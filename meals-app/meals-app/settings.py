@@ -1,5 +1,5 @@
-from pathlib import Path
 import os
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,7 +33,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "meals_app.urls"
+ROOT_URLCONF = "meals-app.urls"
 
 TEMPLATES = [
     {
@@ -41,7 +41,7 @@ TEMPLATES = [
         "DIRS": [
             os.path.join(BASE_DIR, "templates/authentication"),
             os.path.join(BASE_DIR, "meals/templates/meals"),
-            os.path.join(BASE_DIR, "meals_app/templates"),
+            os.path.join(BASE_DIR, "meals-app/templates"),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -55,7 +55,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "meals_app.wsgi.application"
+WSGI_APPLICATION = "meals-app.wsgi.application"
 
 
 # Database
