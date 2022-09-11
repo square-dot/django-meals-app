@@ -4,9 +4,11 @@ from datetime import timedelta
 
 
 class Meal(models.Model):
+    BREAKFAST = "BR"
     LUNCH = "LU"
     DINNER = "DI"
     MEAL_TYPE = [
+        (BREAKFAST, "Breakfast"),
         (LUNCH, "Lunch"),
         (DINNER, "Dinner"),
     ]

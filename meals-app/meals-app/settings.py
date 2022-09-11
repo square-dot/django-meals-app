@@ -100,7 +100,7 @@ TIME_ZONE = "CET"
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 DATE_FORMAT = "l j/n/Y"
 

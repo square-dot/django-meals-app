@@ -1,6 +1,5 @@
-from django.test import TestCase
+from unittest import TestCase
 from datetime import date
-
 
 from django.contrib.auth.models import User
 from meals.forms import DayForm
@@ -8,15 +7,15 @@ from meals.models import Meal
 
 
 class SubscribeToMealTest(TestCase):
+
     def setUp(self):
-        User.objects.create(first_name="Louis", last_name="Pasteur")
+        User.objects.create(username = "lpa", first_name="Louis", last_name="Pasteur")
 
     def tearDown(self):
-        # Clean up run after every test method.
-        pass
+        User.objects.all().delete()
 
     def test_pick_meal(self):
-        print("Testing empty DayForm is not valid")
+        # Testing empty DayForm is not valid
         form = DayForm()
         self.assertFalse(form.is_valid())
 
@@ -26,6 +25,7 @@ class SubscribeToMealTest(TestCase):
         form = DayForm(
             {
                 "date": chosen_date,
+                "BR": DayForm().not_picked,
                 "LU": DayForm().picked_string,
                 "DI": DayForm().not_picked,
             }

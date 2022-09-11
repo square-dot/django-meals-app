@@ -39,6 +39,14 @@ class DayForm(forms.Form):
     not_picked = ("", "No")
     picked_string = "Yes"
     date = forms.DateField(widget=forms.HiddenInput())
+    BR = forms.ChoiceField(
+        required=False,
+        choices=(
+            not_picked,
+            (Meal.BREAKFAST, picked_string),
+        ),
+        widget=forms.RadioSelect(attrs={"onchange": "submit()"}),
+    )
     LU = forms.ChoiceField(
         required=False,
         choices=(

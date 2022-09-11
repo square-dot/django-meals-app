@@ -13,6 +13,8 @@ from meals.forms import string_to_date
 
 class WeekView(View, LoginRequiredMixin):
     template_name = "week_view.html"
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
 
     def get(self, request):
         days_of_week = WeekModel.days_of_week(date.today())
