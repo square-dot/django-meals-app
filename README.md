@@ -8,6 +8,6 @@ Lewis Carroll: It is one of the great
 
 Ezra Pound: With one day
 
-John Keats (SU): A thing of beauty
+John Keats: A thing of beauty
 
-sprsuer: pswsuper
+bayle (SU): reflections

@@ -20,14 +20,20 @@ h1 {
     font-weight: 400;
 }
 
+h2 {
+    color: hsl(210, 52%, 30%);
+    margin-left: 40px;
+    font-weight: 400;
+}
+
 /* unvisited link */
 a:link {
-    color: red;
+    color: blue;
 }
 
 /* visited link */
 a:visited {
-    color: green;
+    color: blue;
 }
 
 table#weektable {
@@ -43,6 +49,7 @@ table#weektable th {
 }
 
 table#weektable td {
+    border: 1px solid #ddd;
     padding: 5px;
 }
 
@@ -50,10 +57,36 @@ table#weektable caption {
     font-style: italic;
 }
 
-th {
+#weektable th,
+#weektable td {
     text-align: center;
 }
 
-td {
-    text-align: center;
+#daymeals {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table#daymeals td,
+table#daymeals th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#daymeals tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#daymeals tr:hover {
+    background-color: #ddd;
+}
+
+#daymeals th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
 }

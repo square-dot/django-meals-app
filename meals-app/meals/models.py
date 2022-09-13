@@ -1,6 +1,7 @@
-from django.db import models
-from django.contrib.auth.models import User
 from datetime import timedelta
+
+from django.contrib.auth.models import User
+from django.db import models
 
 
 class Meal(models.Model):
@@ -58,6 +59,7 @@ class Meal(models.Model):
         constraints = [models.constraints.UniqueConstraint(
             fields=["day", "user", "meal_type"], name="one_meal_per_person"
         )]
+        # permissions = ("can_reserve_meal", )
 
     def meal_description(self):
         return next((x[1] for x in self.MEAL_TYPE if self.meal_type == x[0]))
@@ -73,7 +75,7 @@ class Meal(models.Model):
             + self.meal_description()
         )
 
-class WeekModel:
+class Week:
     
     @staticmethod
     def days_of_week(a_day):

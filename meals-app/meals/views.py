@@ -1,23 +1,25 @@
 from django.shortcuts import render
-from meals.models import Meal, WeekModel
+from meals.models import Meal, Week
 from datetime import date
 from .forms import FormForDate, FormForDate, DayForm, BulkPickerForm
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic.base import View
 from django.views.generic import ListView, DetailView
 from django.core.exceptions import ValidationError
 from meals.forms import string_to_date
 
 
-class WeekView(View, LoginRequiredMixin):
+class WeekView(View, LoginRequiredMixin, PermissionRequiredMixin):
     template_name = "week_view.html"
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
+    permission_required = 'can_reserve_meal'
 
     def get(self, request):
-        days_of_week = WeekModel.days_of_week(date.today())
+        days_of_week = Week.days_of_week(date.today())
         return self.__render(request, days_of_week)
 
     def __render(self, request, days_of_week):
@@ -64,11 +66,19 @@ class WeekView(View, LoginRequiredMixin):
             a_date = string_to_date(day_form["date"].value())
 
         return self.__render(
-                request, WeekModel.days_of_week(a_date)
+                request, Week.days_of_week(a_date)
             )
 
 
-class CalendarView(View, LoginRequiredMixin):
+class CalendarView(View, LoginRequiredMixin, PermissionRequiredMixin):
+    template_name = "date_picker.html"
+
+    def get(self, request):
+        date_input = FormForDate(initial={"date": date.today()})
+        return render(request, self.template_name, {"date_input": date_input})
+
+
+class KitchenCalendarView(View, LoginRequiredMixin, PermissionRequiredMixin):
     template_name = "date_picker.html"
 
     def get(self, request):
@@ -82,18 +92,20 @@ def list_of_users(request):
     return render(request, template_name, all_users)
 
 
-# sourcery skip: avoid-builtin-shadow
 class Login(LoginView):
-    next_page = "login"
     template_name = "login.html"
-    next = "week_view.html"
+    next = "week_view"
 
 
-class MealsListView(ListView):
+def logout_view(request):
+    logout(request)
+    return render(request, 'logged_out.html')
+
+class MealsListView(ListView, LoginRequiredMixin):
     model = Meal
 
 
-class DayMeals(View):
+class DayMeals(View, LoginRequiredMixin):
     template_name = "day_meals.html"
 
     def get(self, request):

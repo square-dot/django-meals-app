@@ -12,6 +12,6 @@ class MealModelTest(TestCase):
         Meal.objects.create(day = date(year=2022, month=9, day=11), user = user, meal_type = "LU")
 
     def test_setup(self):
-        self.assertTrue(len(User.objects.all()) == 1)
+        self.assertTrue(User.objects.all().count() == 1)
         self.assertTrue(Meal.objects.filter(meal_type = "LU").count() == 1)
         self.assertTrue(Meal.objects.get(meal_type = "LU").meal_description() == "Lunch")

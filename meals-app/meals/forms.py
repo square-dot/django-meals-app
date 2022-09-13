@@ -1,5 +1,5 @@
 from django import forms
-from meals.models import Meal, WeekModel
+from meals.models import Meal, Week
 from datetime import date
 
 def string_to_date(str):
@@ -28,7 +28,7 @@ class BulkPickerForm(forms.Form):
 
     def process(self, a_user):
         selected_date = string_to_date(self["date"].value())
-        days_of_week = WeekModel.days_of_week(selected_date)
+        days_of_week = Week.days_of_week(selected_date)
         selected_meal_type = self["meal_type"].value()
         tof = not Meal.exists(selected_date, a_user.id, selected_meal_type)
         for a_day in days_of_week:
