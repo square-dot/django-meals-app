@@ -89,7 +89,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOGIN_REDIRECT_URL = "/"
 
-LOGIN_URL = "login_test"
+LOGIN_URL = "/login"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -109,6 +109,8 @@ USE_L10N = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
+
+STATIC_ROOT = "meals-app/meals/"
 
 STATIC_URL = "static/"
 

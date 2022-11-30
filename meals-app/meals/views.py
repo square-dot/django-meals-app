@@ -12,11 +12,11 @@ from django.core.exceptions import ValidationError
 from meals.forms import string_to_date
 
 
-class WeekView(View, LoginRequiredMixin, PermissionRequiredMixin):
+class WeekView(LoginRequiredMixin, View, PermissionRequiredMixin):
+    permission_required = 'can_reserve_meal'
     template_name = "week_view.html"
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
-    permission_required = 'can_reserve_meal'
 
     def get(self, request):
         days_of_week = Week.days_of_week(date.today())
@@ -70,7 +70,7 @@ class WeekView(View, LoginRequiredMixin, PermissionRequiredMixin):
             )
 
 
-class CalendarView(View, LoginRequiredMixin, PermissionRequiredMixin):
+class CalendarView(LoginRequiredMixin, View, PermissionRequiredMixin):
     template_name = "date_picker.html"
 
     def get(self, request):
@@ -78,7 +78,7 @@ class CalendarView(View, LoginRequiredMixin, PermissionRequiredMixin):
         return render(request, self.template_name, {"date_input": date_input})
 
 
-class KitchenCalendarView(View, LoginRequiredMixin, PermissionRequiredMixin):
+class KitchenCalendarView(LoginRequiredMixin, View, PermissionRequiredMixin):
     template_name = "date_picker.html"
 
     def get(self, request):
@@ -101,11 +101,11 @@ def logout_view(request):
     logout(request)
     return render(request, 'logged_out.html')
 
-class MealsListView(ListView, LoginRequiredMixin):
+class MealsListView(LoginRequiredMixin, ListView):
     model = Meal
 
 
-class DayMeals(View, LoginRequiredMixin):
+class DayMeals(LoginRequiredMixin, View):
     template_name = "day_meals.html"
 
     def get(self, request):
