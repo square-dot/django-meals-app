@@ -87,6 +87,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = "meals.MealUser"
+
 LOGIN_REDIRECT_URL = "/"
 
 LOGIN_URL = "login"

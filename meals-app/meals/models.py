@@ -1,7 +1,14 @@
 from datetime import timedelta
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+
+class MealUser(AbstractUser):
+    pass
+    # add additional fields in here
+
+    def __str__(self):
+        return self.username
 
 
 class Meal(models.Model):
@@ -15,7 +22,7 @@ class Meal(models.Model):
     ]
 
     day = models.DateField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(MealUser, on_delete=models.CASCADE)
     meal_type = models.CharField(
         max_length=2,
         choices=MEAL_TYPE,
@@ -26,7 +33,7 @@ class Meal(models.Model):
     def exists(a_day, a_user_id, a_meal):
         if a_user_id is None:
             return False
-        a_user = User.objects.get(id=a_user_id)
+        a_user = MealUser.objects.get(id=a_user_id)
         day_meals = Meal.objects.filter(day=a_day).filter(meal_type=a_meal).filter(user=a_user)
         return day_meals.exists()
 

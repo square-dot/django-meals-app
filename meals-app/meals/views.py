@@ -1,9 +1,8 @@
 from django.shortcuts import render
-from meals.models import Meal, Week
+from meals.models import Meal, Week, MealUser
 from datetime import date
 from .forms import FormForDate, FormForDate, DayForm, BulkPickerForm
 from django.contrib.auth import logout
-from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic.base import View
@@ -87,7 +86,7 @@ class KitchenCalendarView(LoginRequiredMixin, View, PermissionRequiredMixin):
 
 
 def list_of_users(request):
-    all_users = {"all_users_list": User.objects.all()}
+    all_users = {"all_users_list": MealUser.objects.all()}
     template_name = "meals/list_of_users.html"
     return render(request, template_name, all_users)
 
@@ -125,4 +124,4 @@ class DayMeals(LoginRequiredMixin, View):
 
 
 class UserDetailView(DetailView):
-    model = User
+    model = MealUser

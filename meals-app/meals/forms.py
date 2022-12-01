@@ -1,10 +1,24 @@
 from django import forms
-from meals.models import Meal, Week
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from meals.models import Meal, Week, MealUser
 from datetime import date
 
 def string_to_date(str):
     elements = str.split("-")
     return date(int(elements[0]), int(elements[1]), int(elements[2]))
+
+class MealUserCreationForm(UserCreationForm):
+
+    class Meta:
+        model = MealUser
+        fields = ("username", "email")
+
+class MealUserChangeForm(UserChangeForm):
+
+    class Meta:
+        model = MealUser
+        fields = ("username", "email")
+
 
 
 class DateInput(forms.DateInput):
