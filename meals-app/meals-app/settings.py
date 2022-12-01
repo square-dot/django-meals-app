@@ -89,7 +89,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOGIN_REDIRECT_URL = "/"
 
-LOGIN_URL = "/login"
+LOGIN_URL = "login"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -102,7 +102,7 @@ USE_I18N = True
 
 USE_TZ = False
 
-DATE_FORMAT = "l j/n/Y"
+DATE_FORMAT = "l j-n-Y"
 
 USE_L10N = False
 

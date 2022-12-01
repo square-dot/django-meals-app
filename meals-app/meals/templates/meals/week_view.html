@@ -1,4 +1,20 @@
 {% extends "base_generic.html" %}
+
+{% block header %}
+<h1 class="center">Meal Picker</h1>
+{% endblock %}
+
+{% block topmenu %}
+<ul>
+    <li>User: {{ user.get_username }}</li>
+    <li><a href="{% url 'date_picker' %}?next={{request.path}}">Calendar</a></li>
+    <li><a href="{% url 'week_view' %}?next={{request.path}}">Meal picker</a></li>
+    <li><a href="{% url 'meals' %}?next={{request.path}}">List of meals</a></li>
+</ul>
+{% endblock %}
+
+
+
 {% block content %}
 <table id="weektable">
     <tr>
@@ -125,7 +141,7 @@
             <form action="{% url 'week_view' %}" method="post">
                 {% csrf_token %}
                 <td>
-                    {{ sunday_form.date }} {{ sunday_form.LU }}
+                    {{ sunday_form.LU }}
                 </td>
                 <td>
                     {{ sunday_form.DI }}
