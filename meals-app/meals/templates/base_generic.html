@@ -24,8 +24,10 @@
     <div  style="margin-top:20px;">
         {% block content %}{% endblock %}
     </div>
-    <div style="margin-top:20px;">
-        <a href="{% url 'logout' %}?next={{request.path}}">Logout</a>
+
+    <div style="left: 0px; right: 0px; margin-top: 20px;" style="margin-top:20px;">
+        <div style="float:left">User: {{ user.get_username }}</div>
+        <div style="float:right"><a href="{% url 'logout' %}?next={{request.path}}">Logout</a></div>
     </div>
 </body>
 

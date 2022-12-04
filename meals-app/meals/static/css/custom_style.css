@@ -86,3 +86,16 @@ table#weektable td {
 #daymeals tr:hover {
     background-color: var(--towelyellow);
 }
+
+div.left {
+    display: flex;
+    justify-content: flex-end;
+}
+
+div.right {
+    display: flex;
+    justify-content: flex-end;
+    width: 500px;
+    height: 500px;
+    background: #5e5e5e;
+}
