@@ -4,15 +4,6 @@
 <h1 class="center">Meal Picker</h1>
 {% endblock %}
 
-{% block topmenu %}
-<ul>
-    <li><a href="{% url 'date_picker' %}?next={{request.path}}">Calendar</a></li>
-    <li><a href="{% url 'week_view' %}?next={{request.path}}">Meal picker</a></li>
-    <li><a href="{% url 'meals' %}?next={{request.path}}">List of meals</a></li>
-</ul>
-{% endblock %}
-
-
 
 {% block content %}
 <table id="weektable">

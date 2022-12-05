@@ -4,13 +4,6 @@
 <h1 class="center">Calendar</h1>
 {% endblock %}
 
-{% block topmenu %}
-<ul>
-    <li><a href="{% url 'week_view' %}?next={{request.path}}">Meal picker</a></li>
-    <li><a href="{% url 'day_meals' %}?next={{request.path}}">Meals of the day</a></li>
-    <li><a href="{% url 'meals' %}?next={{request.path}}">List of meals</a></li>
-</ul>
-{% endblock %}
 
 {% block content %}
 <form action="{% url 'week_view' %}" method="post">

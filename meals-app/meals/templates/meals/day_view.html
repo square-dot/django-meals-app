@@ -1,4 +1,5 @@
 {% extends "base_generic.html" %}
+
 {% block content %}
 <p> {{ meals_form.date.value }} </p>
 <form action="{% url 'day_view' %}" method="post">

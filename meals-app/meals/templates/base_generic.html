@@ -18,14 +18,19 @@
         {% endblock %}
     </div>
     <div  style="margin-top:20px;">
-        {% block topmenu %}
-        {% endblock %}
+        <ul>
+            <li><a href="{% url 'list_of_users' %}?next={{request.path}}">Users</a></li>
+            <li><a href="{% url 'date_picker' %}?next={{request.path}}">Calendar</a></li>
+            <li><a href="{% url 'week_view' %}?next={{request.path}}">Meal picker</a></li>
+            <li><a href="{% url 'meals' %}?next={{request.path}}">List of meals</a></li>
+            <li><a href="{% url 'day_meals' %}?next={{request.path}}">Meals of the day</a></li>
+        </ul>
     </div>
     <div  style="margin-top:20px;">
         {% block content %}{% endblock %}
     </div>
-
     <div style="left: 0px; right: 0px; margin-top: 20px;" style="margin-top:20px;">
+        <hr class="ftr">
         <div style="float:left">User: {{ user.get_username }}</div>
         <div style="float:right"><a href="{% url 'logout' %}?next={{request.path}}">Logout</a></div>
     </div>

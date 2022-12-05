@@ -13,12 +13,12 @@ class MealUserCreationForm(UserCreationForm):
         model = MealUser
         fields = ("username", "email")
 
+
 class MealUserChangeForm(UserChangeForm):
 
     class Meta:
         model = MealUser
         fields = ("username", "email")
-
 
 
 class DateInput(forms.DateInput):

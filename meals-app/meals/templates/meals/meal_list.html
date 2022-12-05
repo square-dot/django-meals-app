@@ -4,14 +4,6 @@
 <h1 class="center">Meals List</h1>
 {% endblock %}
 
-{% block topmenu %}
-<ul>
-    <li><a href="{% url 'date_picker' %}?next={{request.path}}">Calendar</a></li>
-    <li><a href="{% url 'week_view' %}?next={{request.path}}">Meal picker</a></li>
-    <li><a href="{% url 'day_meals' %}?next={{request.path}}">Meals of the day</a></li>
-</ul>
-{% endblock %}
-
 
 {% block content %}
 {% if meal_list %}

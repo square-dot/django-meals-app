@@ -1,10 +1,18 @@
 {% extends "base_generic.html" %}
+
+{% block header %}
+<h1 class="center">List of users</h1>
+{% endblock %}
+
 {% block content %}
-    <h1>List of users</h1>
     <ul>
         {% for user in all_users_list %}
-        <li style="list-style-type:none;"><a href="{% url 'user_detail' user.pk %}">{{user.first_name}}
-                {{user.family_name}}</a></li>
+        <li style="list-style-type:none;"><a href="{% url 'user_detail' user.pk %}">{{user.username}}</a></li>
         {% endfor %}
     </ul>
+    <form action="{% url 'list_of_users' %}" method="post">
+        {% csrf_token %}
+        {{ new_user }}
+        <input type="submit" value="Go" name="create_user">
+    </form>
 {% endblock %}

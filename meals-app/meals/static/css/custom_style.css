@@ -54,6 +54,10 @@ a:visited {
     color: blue;
 }
 
+hr.ftr {
+    border: 1px var(--towelred);
+}
+
 /* week table */
 
 table#weektable, table#daymeals {
