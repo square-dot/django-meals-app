@@ -39,8 +39,8 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            os.path.join(BASE_DIR, "templates/authentication"),
             os.path.join(BASE_DIR, "meals/templates/meals"),
+            os.path.join(BASE_DIR, "meals/templates/administration"),
             os.path.join(BASE_DIR, "meals-app/templates"),
         ],
         "APP_DIRS": True,

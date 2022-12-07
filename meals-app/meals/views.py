@@ -1,19 +1,22 @@
-from django.shortcuts import render
-from meals.models import Meal, Week, MealUser
 from datetime import date
-from .forms import FormForDate, FormForDate, DayForm, BulkPickerForm, MealUserCreationForm
+
 from django.contrib.auth import logout
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin)
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.views.generic.base import View
-from django.views.generic import ListView, DetailView
 from django.core.exceptions import ValidationError
+from django.shortcuts import render
+from django.views.generic import DetailView, ListView
+from django.views.generic.base import View
 from meals.forms import string_to_date
+from meals.models import Meal, MealUser, Week
+
+from .forms import BulkPickerForm, DayForm, FormForDate, MealUserCreationForm, MealUserChangeForm
 
 
-class WeekView(LoginRequiredMixin, View, PermissionRequiredMixin):
+class MealPicker(LoginRequiredMixin, View, PermissionRequiredMixin):
     permission_required = 'can_reserve_meal'
-    template_name = "week_view.html"
+    template_name = "meal_picker.html"
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
 
@@ -93,10 +96,14 @@ def list_of_users(request):
     template_name = "meals/list_of_users.html"
     return render(request, template_name, all_users)
 
+def user_detail(request):
+    template_name = "user_detail.html"
+    return render(request, template_name, {"modify_user_form" : MealUserChangeForm()})
+
 
 class Login(LoginView):
     template_name = "login.html"
-    next = "week_view"
+    next = "meal_picker"
 
 
 def logout_view(request):
@@ -104,11 +111,12 @@ def logout_view(request):
     return render(request, 'logged_out.html')
 
 class MealsListView(LoginRequiredMixin, ListView):
+    template_name = "list_of_meals.html"
     model = Meal
 
 
-class DayMeals(LoginRequiredMixin, View):
-    template_name = "day_meals.html"
+class MealsOfTheDay(LoginRequiredMixin, View):
+    template_name = "meals_of_the_day.html"
 
     def get(self, request):
         day = date.today()

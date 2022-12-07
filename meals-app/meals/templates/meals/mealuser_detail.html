@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+
+{% block header %}
+<h1 class="center">User detail</h1>
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'list_of_users' %}" method="post">
+        {% csrf_token %}
+        {{ modify_user_form }}
+        <input type="submit" value="confirm" name="modify_user">
+    </form>
+{% endblock %}

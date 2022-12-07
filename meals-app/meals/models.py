@@ -8,7 +8,12 @@ class MealUser(AbstractUser):
     # add additional fields in here
 
     def __str__(self):
-        return self.username
+        return self.first_name + self.last_name
+
+    class Meta:
+        constraints = [models.constraints.UniqueConstraint(
+            fields=["first_name", "last_name"], name="account with same name already existing"
+        )]
 
 
 class Meal(models.Model):

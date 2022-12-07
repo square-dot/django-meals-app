@@ -1,41 +1,53 @@
-{% extends "base_generic.html" %}
+{% extends "base_administration.html" %}
 
 {% block header %}
-<h1 class="center">Meals of the Day</h1>
+<h1>Meals of the Day</h1>
 {% endblock %}
 
 {% block content %}
-<table id="daymeals", style="width: 80%">
+<table id="daymeals">
     <tr>
         <th>Breakfast</th>
         <th>Lunch</th>
         <th>Dinner</th>
     </tr>
     <tr>
-        <th>
+        <td>
             <ul>
+                {% if BR %}
                 {% for user in BR %}
                 <li style="list-style-type:none;"><a href="{% url 'user_detail' user.pk %}">{{user.first_name}}
                         {{user.last_name}}</a></li>
                 {% endfor %}
+                {% else %}
+                <p>-</p>
+                {% endif %}
             </ul>
-        </th>
-        <th>
+        </td>
+        <td>
             <ul>
+                {% if LU %}
                 {% for user in LU %}
                 <li style="list-style-type:none;"><a href="{% url 'user_detail' user.pk %}">{{user.first_name}}
                         {{user.last_name}}</a></li>
                 {% endfor %}
+                {% else %}
+                <p>-</p>
+                {% endif %}
             </ul>
-        </th>
-        <th>
+        </td>
+        <td>
             <ul>
+                {% if DI %}
                 {% for user in DI %}
                 <li style="list-style-type:none;"><a href="{% url 'user_detail' user.pk %}">{{user.first_name}}
                         {{user.last_name}}</a></li>
                 {% endfor %}
+                {% else %}
+                <p>-</p>
+                {% endif %}
             </ul>
-        </th>
+        </td>
     </tr>
 </table>
 {% endblock %}

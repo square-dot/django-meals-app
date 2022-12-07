@@ -1,4 +1,4 @@
-{% extends "base_generic.html" %}
+{% extends "base_administration.html" %}
 
 {% block header %}
 <h1 class="center">Meals List</h1>
@@ -6,9 +6,9 @@
 
 
 {% block content %}
-{% if meal_list %}
+{% if list_of_meals %}
 <ul>
-    {% for meal in meal_list %}
+    {% for meal in list_of_meals %}
     <li>
         {{ meal }}
     </li>

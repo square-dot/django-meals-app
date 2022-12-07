@@ -13,17 +13,17 @@
     </tr>
     <tr>
         <td>
-            <form action="{% url 'week_view' %}" method="post">
+            <form action="{% url 'meal_picker' %}" method="post">
                 {% csrf_token %}
                 {{ bulk_lunches }}
-                <input type="submit" value="All lunches" name="bulk_pick">
+                <input type="submit" value="All " name="bulk_pick">
             </form>
         </td>
         <td> 
-            <form action="{% url 'week_view' %}" method="post">
+            <form action="{% url 'meal_picker' %}" method="post">
                 {% csrf_token %}
                 {{ bulk_dinners }}
-                <input type="submit" value="All dinners" name="bulk_pick">
+                <input type="submit" value="All" name="bulk_pick">
             </form>
         </td>
     </tr>
@@ -32,7 +32,7 @@
     </tr>
     <tr>
         <div class="row">
-            <form action="{% url 'week_view' %}" method="post">
+            <form action="{% url 'meal_picker' %}" method="post">
                 {% csrf_token %}
                 <td>
                     {{ monday_form.date }} {{ monday_form.LU }}
@@ -48,7 +48,7 @@
     </tr>
     <tr>
         <div class="row">
-            <form action="{% url 'week_view' %}" method="post">
+            <form action="{% url 'meal_picker' %}" method="post">
                 {% csrf_token %}
                 <td>
                     {{ tuesday_form.date }} {{ tuesday_form.LU }}
@@ -64,7 +64,7 @@
     </tr>
     <tr>
         <div class="row">
-            <form action="{% url 'week_view' %}" method="post">
+            <form action="{% url 'meal_picker' %}" method="post">
                 {% csrf_token %}
                 <td>
                     {{ wednesday_form.date }} {{ wednesday_form.LU }}
@@ -80,7 +80,7 @@
     </tr>
     <tr>
         <div class="row">
-            <form action="{% url 'week_view' %}" method="post">
+            <form action="{% url 'meal_picker' %}" method="post">
                 {% csrf_token %}
                 <td>
                     {{ thursday_form.date }} {{ thursday_form.LU }}
@@ -96,7 +96,7 @@
     </tr>
     <tr>
         <div class="row">
-            <form action="{% url 'week_view' %}" method="post">
+            <form action="{% url 'meal_picker' %}" method="post">
                 {% csrf_token %}
                 <td>
                     {{ friday_form.date }} {{ friday_form.LU }}
@@ -112,7 +112,7 @@
     </tr>
     <tr>
         <div class="row">
-            <form action="{% url 'week_view' %}" method="post">
+            <form action="{% url 'meal_picker' %}" method="post">
                 {% csrf_token %}
                 <td>
                     {{ saturday_form.date }} {{ saturday_form.LU }}
@@ -128,7 +128,7 @@
     </tr>
     <tr>
         <div class="row">
-            <form action="{% url 'week_view' %}" method="post">
+            <form action="{% url 'meal_picker' %}" method="post">
                 {% csrf_token %}
                 <td>
                     {{ sunday_form.LU }}

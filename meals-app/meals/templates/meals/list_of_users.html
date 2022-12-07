@@ -1,4 +1,4 @@
-{% extends "base_generic.html" %}
+{% extends "base_administration.html" %}
 
 {% block header %}
 <h1 class="center">List of users</h1>
@@ -10,9 +10,4 @@
         <li style="list-style-type:none;"><a href="{% url 'user_detail' user.pk %}">{{user.username}}</a></li>
         {% endfor %}
     </ul>
-    <form action="{% url 'list_of_users' %}" method="post">
-        {% csrf_token %}
-        {{ new_user }}
-        <input type="submit" value="Go" name="create_user">
-    </form>
 {% endblock %}

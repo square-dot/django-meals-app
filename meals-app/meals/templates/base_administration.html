@@ -19,11 +19,12 @@
     </div>
     <div  style="margin-top:20px;">
         <ul class="no-bullets">
-            <form action="{% url 'list_of_users' %}?next={{request.path}}">
-                <button>> Admin</button>
+            <form action="{% url 'meal_picker' %}?next={{request.path}}">
+                <button>< Admin</button>
             </form>
-            <li><a href="{% url 'date_picker' %}?next={{request.path}}">Calendar</a></li>
-            <li><a href="{% url 'meal_picker' %}?next={{request.path}}">Meal picker</a></li>
+            <li><a href="{% url 'list_of_users' %}?next={{request.path}}">List of users</a></li>
+            <li><a href="{% url 'list_of_meals' %}?next={{request.path}}">List of meals</a></li>
+            <li><a href="{% url 'meals_of_the_day' %}?next={{request.path}}">Meals of the day</a></li>
         </ul>
     </div>
     <div  style="margin-top:20px;">

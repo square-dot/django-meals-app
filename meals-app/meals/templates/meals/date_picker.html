@@ -6,7 +6,7 @@
 
 
 {% block content %}
-<form action="{% url 'week_view' %}" method="post">
+<form action="{% url 'meal_picker' %}" method="post">
     {% csrf_token %}
     {{ date_input }}
     <input type="submit" value="Go" name="date_change">

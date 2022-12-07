@@ -11,14 +11,14 @@ class MealUserCreationForm(UserCreationForm):
 
     class Meta:
         model = MealUser
-        fields = ("username", "email")
+        fields = ("username", "first_name", "last_name", "email")
 
 
 class MealUserChangeForm(UserChangeForm):
 
     class Meta:
         model = MealUser
-        fields = ("username", "email")
+        fields = ("username", "first_name", "last_name", "email")
 
 
 class DateInput(forms.DateInput):
